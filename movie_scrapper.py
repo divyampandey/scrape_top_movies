@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import concurrent.futures
 
-
 # Constants
 BASE_URL = "https://www.justwatch.com"
 
@@ -85,11 +84,7 @@ def main_scraper(url):
     return cleaned_df
 
 
-
-# Example usage
 url = 'https://www.justwatch.com/in/movies?release_year_from=2000'
-
-
 df = main_scraper(url)
 top_movies = df.sort_values(by=['release_year','ratings'], ascending=False).reset_index(drop=True)
 
