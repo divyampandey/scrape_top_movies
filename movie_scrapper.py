@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import time
-from dask import delayed, compute
 import concurrent.futures
 from IPython.display import HTML
 
