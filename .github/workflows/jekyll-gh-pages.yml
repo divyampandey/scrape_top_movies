@@ -39,4 +39,4 @@ jobs:
     - name: Build and Deploy
       uses: helaili/jekyll-action@2.0.3
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        JEKYLL_PAT: ${{ secrets.GITHUB_TOKEN }}
