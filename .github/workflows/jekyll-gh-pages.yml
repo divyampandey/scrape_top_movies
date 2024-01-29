@@ -5,7 +5,7 @@ on:
     # Runs every day at 7:50 AM UTC
     - cron: '50 7 * * *'
   workflow_dispatch:
-  
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.ACCESS_TOKEN }}
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -25,21 +27,16 @@ jobs:
 
     - name: Run Movie Scraper Script
       run: python movie_scrapper.py
-    
-    - name: Push changes
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.ACCESS_TOKEN }} # replace with your secret name
 
-    # Assuming your script outputs an HTML file to a docs folder
+    # The 'Push changes' step is not necessary here as we are going to add the push command in the 'Commit and Push Changes' step
 
     - name: Commit and Push Changes
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
         git add docs/
-        git commit -m "Update movie data" -a
-        git push
+        git commit -m "Update movie data" -a || echo "No changes to commit"
+        git push || echo "No changes to push"
 
     - name: Build and Deploy
       uses: helaili/jekyll-action@2.0.3
