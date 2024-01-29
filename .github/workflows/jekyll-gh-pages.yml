@@ -1,0 +1,56 @@
+name: Deploy Movie Scraper Updates to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' # Use the version of Python you need
+
+      - name: Install Dependencies
+        run: |
+          pip install requests beautifulsoup4 pandas lxml # Add any other dependencies
+
+      - name: Run Movie Scraper Script
+        run: python movie_scrapper.py # Replace with the actual path to your script
+        # This script should update the index.html inside the docs folder
+
+      - name: Commit Updated Index.html
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add docs/index.html
+          git commit -m "Update index.html with latest movie data" || echo "No changes to index.html"
+          git push || echo "No changes to push"
+
+      # If you have a Jekyll site, you might need a build step here. 
+      # If your site is static and doesn't require a build, you can remove the Jekyll build step.
+
+      # This deployment step assumes that your GitHub Pages source is set to the /docs folder on the main branch.
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
