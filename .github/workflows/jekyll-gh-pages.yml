@@ -14,7 +14,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
       with:
-        token: ${{ secrets.ACCESS_TOKEN }}
+        fetch-depth: 0 # fetch all history for all tags and branches
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -28,17 +28,15 @@ jobs:
     - name: Run Movie Scraper Script
       run: python movie_scrapper.py
 
-    # The 'Push changes' step is not necessary here as we are going to add the push command in the 'Commit and Push Changes' step
-
     - name: Commit and Push Changes
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
-        git add docs/
-        git commit -m "Update movie data" -a || echo "No changes to commit"
-        git push || echo "No changes to push"
+        git add .
+        git commit -m "Update movie data" || echo "No changes to commit"
+        git push origin HEAD:main || echo "No changes to push"
 
     - name: Build and Deploy
       uses: helaili/jekyll-action@2.0.3
       with:
-        token: ${{ secrets.ACCESS_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
