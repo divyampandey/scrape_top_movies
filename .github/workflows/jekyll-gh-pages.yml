@@ -25,6 +25,11 @@ jobs:
 
     - name: Run Movie Scraper Script
       run: python movie_scrapper.py
+    
+    - name: Push changes
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.ACCESS_TOKEN }} # replace with your secret name
 
     # Assuming your script outputs an HTML file to a docs folder
 
@@ -39,4 +44,4 @@ jobs:
     - name: Build and Deploy
       uses: helaili/jekyll-action@2.0.3
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.ACCESS_TOKEN }}
