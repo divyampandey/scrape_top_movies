@@ -1,0 +1,41 @@
+name: Run Movie Scraper and Update GitHub Pages
+
+on:
+  schedule:
+    # Runs every day at 7:50 AM UTC
+    - cron: '50 7 * * *'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8 # Adjust the Python version as needed
+
+    - name: Install Dependencies
+      run: |
+        pip install requests beautifulsoup4 pandas dask concurrent.futures
+
+    - name: Run Movie Scraper Script
+      run: python movie_scrapper.py
+
+    # Assuming your script outputs an HTML file to a docs folder
+
+    - name: Commit and Push Changes
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add docs/
+        git commit -m "Update movie data" -a
+        git push
+
+    - name: Build and Deploy
+      uses: helaili/jekyll-action@2.0.3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
