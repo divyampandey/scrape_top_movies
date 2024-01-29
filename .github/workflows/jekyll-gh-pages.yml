@@ -21,7 +21,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        pip install requests beautifulsoup4 pandas dask concurrent.futures
+        pip install requests beautifulsoup4 pandas
 
     - name: Run Movie Scraper Script
       run: python movie_scrapper.py
