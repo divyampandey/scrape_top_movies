@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import concurrent.futures
-from IPython.display import HTML
+
 
 # Constants
 BASE_URL = "https://www.justwatch.com"
