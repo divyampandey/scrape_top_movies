@@ -54,6 +54,7 @@ def get_movie_info(url):
 
 def get_cleaned_df_from_movies_data(final_data):
     df = pd.DataFrame(final_data)
+    df['age_rating'] = df['Age rating'].str.strip()
     df['ratings'] = df['Rating'].str.extract(r'(\d+\.\d+)').astype(float)
     df[['movie_name', 'release_year']] = df['movie_name'].str.extract(r'(.*) \((\d{4})\)')
     df['genres'] = df['Genres']
@@ -62,7 +63,7 @@ def get_cleaned_df_from_movies_data(final_data):
     df['director_name'] = df['Director']
     df['release_year'] = df['release_year'].astype(int)
     df['movie_details'] = df['movie_details'].str.strip()
-    return df[["movie_url","movie_name","movie_details","ratings","release_year","genres","runtime","production_country","director_name"]]
+    return df[["movie_name","movie_details","ratings","age_rating","release_year","genres","runtime","production_country","director_name"]]
 
 def main_scraper(url):
     movies_list = get_movies_from_url(url)
