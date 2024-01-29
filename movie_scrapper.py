@@ -147,7 +147,7 @@ html_output = f"""
 import os
 
 # Your file path
-file_path = 'docs/top_movies.html'
+file_path = 'docs/index.html'
 
 # Check if the directory exists
 dir_name = os.path.dirname(file_path)
