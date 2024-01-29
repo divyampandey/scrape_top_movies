@@ -146,7 +146,18 @@ html_output = f"""
 </html>
 """
 
+import os
+
+# Your file path
+file_path = 'docs/top_movies.html'
+
+# Check if the directory exists
+dir_name = os.path.dirname(file_path)
+if not os.path.exists(dir_name):
+    # If the directory does not exist, create it
+    os.makedirs(dir_name)
+
 # Write the HTML output to a file
-with open('top_movies.html', 'w', encoding='utf-8') as file:
+with open(file_path, 'w', encoding='utf-8') as file:
     file.write(html_output)
 
