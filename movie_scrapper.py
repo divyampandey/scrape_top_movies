@@ -10,7 +10,7 @@ BASE_URL = "https://www.justwatch.com"
 # Improved error handling and request sessions
 def fetch_url(url):
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, verify=False)
         response.raise_for_status()
         return response.text
     except requests.RequestException as e:
